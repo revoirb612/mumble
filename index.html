@@ -2,31 +2,35 @@
 <html>
 <head>
     <title>Text File to Clipboard</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
-    <input type="file" id="fileInput" accept=".txt" onchange="loadFile()" />
+    <input type="file" id="fileInput" accept=".txt" />
     <div id="buttonContainer"></div>
 
     <script>
-        function loadFile() {
-            const input = document.getElementById('fileInput');
+        $('#fileInput').change(function() {
             const reader = new FileReader();
-            reader.onload = function() {
-                const lines = reader.result.split('\n');
-                const container = document.getElementById('buttonContainer');
-                container.innerHTML = '';
-                lines.forEach(function(line) {
-                    const button = document.createElement('button');
-                    button.textContent = line;
-                    button.addEventListener('click', function() {
+            reader.onload = function(e) {
+                const lines = e.target.result.split('\n');
+                $('#buttonContainer').empty();
+                $.each(lines, function(i, line) {
+                    $('<button>').text(line).appendTo('#buttonContainer').click(function() {
                         navigator.clipboard.writeText(line);
-                        alert('클립보드에 복사되었습니다: ' + line);
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: '클립보드에 복사되었습니다: ' + line,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     });
-                    container.appendChild(button);
+                    $('#buttonContainer').append('<br>');
                 });
             };
-            reader.readAsText(input.files[0]);
-        }
+            reader.readAsText(this.files[0]);
+        });
     </script>
 </body>
 </html>
