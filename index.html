@@ -17,12 +17,12 @@
                 const lines = e.target.result.split('\n');
                 $('#buttonContainer').empty();
                 $.each(lines, function(i, line) {
-                    $('<button>').text(line).appendTo('#buttonContainer').addClass('btn btn-primary btn-block mb-1').click(function() {
+                    $('<button>').text(line).appendTo('#buttonContainer').addClass('btn btn-light btn-block mb-1').click(function() {
                         navigator.clipboard.writeText(line);
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'success',
-                            title: '클립보드에 복사되었습니다: ' + line,
+                            title: line,
                             showConfirmButton: false,
                             timer: 1500
                         });
