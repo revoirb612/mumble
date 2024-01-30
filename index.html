@@ -9,18 +9,7 @@
 <body class="p-5">
     <input type="file" id="fileInput" accept=".txt" class="form-control mb-3" />
     <div id="buttonContainer"></div>
-    <footer>
-        <div class="footer py-3 footer-small-text d-flex justify-content-center align-items-center">
-            <div class="container text-center">
-                <span class="text-muted">Copyright &copy; 2023-2024 </span>
-                <a href="https://linktr.ee/revoirb612" target="_blank">홍승일</a>
-                <span class="text-muted"> ― </span>
-                <a href="/">Terms</a>
-                <span class="text-muted"> ― </span>
-                <a href="/">Privacy & Cookies</a>
-            </div>
-        </div>
-    </footer>    
+
     <script>
         $('#fileInput').change(function() {
             const reader = new FileReader();
@@ -29,7 +18,8 @@
                 $('#buttonContainer').empty();
                 $.each(lines, function(i, line) {
                     line = line.trim();
-                    $('<button>').text(line).appendTo('#buttonContainer').addClass('btn btn-light btn-block mb-1').click(function() {
+                    const buttonDiv = $('<div>').addClass('d-flex mb-1').appendTo('#buttonContainer');
+                    $('<button>').text(line).addClass('btn btn-light flex-grow-1 mr-1').click(function() {
                         navigator.clipboard.writeText(line);
                         Swal.fire({
                             position: 'center',
@@ -38,7 +28,10 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                    });
+                    }).appendTo(buttonDiv);
+                    $('<button>').text('삭제').addClass('btn btn-danger').click(function() {
+                        buttonDiv.remove();
+                    }).appendTo(buttonDiv);
                 });
             };
             reader.readAsText(this.files[0]);
