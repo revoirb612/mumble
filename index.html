@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>Text File to Clipboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
-<body>
-    <input type="file" id="fileInput" accept=".txt" />
+<body class="p-5">
+    <input type="file" id="fileInput" accept=".txt" class="form-control mb-3" />
     <div id="buttonContainer"></div>
 
     <script>
@@ -16,7 +17,7 @@
                 const lines = e.target.result.split('\n');
                 $('#buttonContainer').empty();
                 $.each(lines, function(i, line) {
-                    $('<button>').text(line).appendTo('#buttonContainer').click(function() {
+                    $('<button>').text(line).appendTo('#buttonContainer').addClass('btn btn-primary btn-block mb-1').click(function() {
                         navigator.clipboard.writeText(line);
                         Swal.fire({
                             position: 'top-end',
@@ -26,7 +27,6 @@
                             timer: 1500
                         });
                     });
-                    $('#buttonContainer').append('<br>');
                 });
             };
             reader.readAsText(this.files[0]);
