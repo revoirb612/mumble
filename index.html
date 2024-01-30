@@ -17,6 +17,7 @@
                 const lines = e.target.result.split('\n');
                 $('#buttonContainer').empty();
                 $.each(lines, function(i, line) {
+                    line = line.trim();
                     $('<button>').text(line).appendTo('#buttonContainer').addClass('btn btn-light btn-block mb-1').click(function() {
                         navigator.clipboard.writeText(line);
                         Swal.fire({
